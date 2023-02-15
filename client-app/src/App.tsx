@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import { Header } from 'semantic-ui-react';
+import List from 'semantic-ui-react/dist/commonjs/elements/List';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 function App() {
 const [activities, setActivities] = useState([]);
@@ -9,23 +12,21 @@ const [activities, setActivities] = useState([]);
 useEffect(() => {
   axios.get('http://localhost:5000/api/devhubblogs')
    .then(response => {
-    console.log(response);
     setActivities(response.data);  // set data to 'activites' variable
    })
 }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />       
-        <ul>
+    <div>
+      <Header as='h2' icon='users' content='Dev Hub' />           
+        <List>
           {activities.map((activity: any) => (
-            <li key={activity.id}>
+            <List.Item key={activity.id}>
               {activity.title}
-            </li>
+            </List.Item>
           ))}
-        </ul>
-      </header>
+        </List>
+        <Button content='Test'/>
     </div>
   );
 }
