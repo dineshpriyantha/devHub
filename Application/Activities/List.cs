@@ -15,7 +15,7 @@ namespace Application.Activities
 
             public Handler(DataContext context)
             {
-            _context = context;                
+                _context = context;                
             }
 
             public async Task<List<DevHubBlog>> Handle(Query request, CancellationToken cancellationToken)

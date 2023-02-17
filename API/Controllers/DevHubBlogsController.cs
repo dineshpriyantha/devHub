@@ -15,9 +15,15 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")] //api/devhubblogs/id
-        public async Task<ActionResult<DevHubBlog>> GetDevHubBlog(Guid id)
+        public async Task<ActionResult<DevHubBlog>> GetDevHubBlogs(Guid id)
         {
             return await Mediator.Send(new Details.Query{Id = id});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDevHubBlogs(DevHubBlog devHub)
+        {
+            return Ok(await Mediator.Send(new Create.Command {DevHubBlogs = devHub}));
         }
     }
 }
