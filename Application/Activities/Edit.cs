@@ -8,7 +8,7 @@ using Persistence;
 
 namespace Application.Activities
 {
-    public class Create
+    public class Edit
     {
         public class Command : IRequest
         {
@@ -25,9 +25,11 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                 _context.DevHubBlogs.Add(request.DevHubBlog);
-                 await _context.SaveChangesAsync();
-                 return Unit.Value; // just let us know API function has been done.
+                var blog = await _context.DevHubBlogs.FindAsync(request.DevHubBlog.Id);
+                blog.Title = request.DevHubBlog.Title ?? blog.Title;
+
+                await _context.SaveChangesAsync();
+                return Unit.Value;
             }
         }
     }

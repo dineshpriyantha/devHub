@@ -23,7 +23,14 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDevHubBlogs(DevHubBlog devHub)
         {
-            return Ok(await Mediator.Send(new Create.Command {DevHubBlogs = devHub}));
+            return Ok(await Mediator.Send(new Create.Command {DevHubBlog = devHub}));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditDevHubBlogs(Guid id, DevHubBlog devHub)
+        {
+            devHub.Id = id;
+            return Ok(await Mediator.Send(new Edit.Command{DevHubBlog = devHub}));
         }
     }
 }
