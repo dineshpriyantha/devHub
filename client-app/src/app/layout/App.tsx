@@ -4,6 +4,7 @@ import { Header } from 'semantic-ui-react';
 import List from 'semantic-ui-react/dist/commonjs/elements/List';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import { Activity } from '../models/activity';
+import NavBar from './NavBar';
 
 function App() {
 const [activities, setActivities] = useState<Activity[]>([]);
@@ -16,7 +17,7 @@ useEffect(() => {
 
   return (
     <div>
-      <Header as='h2' icon='users' content='Dev Hub' />           
+        <NavBar />           
         <List>
           {activities.map(activity => (
             <List.Item key={activity.id}>
@@ -24,7 +25,6 @@ useEffect(() => {
             </List.Item>
           ))}
         </List>
-        <Button content='Test'/>
     </div>
   );
 }
