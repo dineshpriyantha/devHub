@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import List from 'semantic-ui-react/dist/commonjs/elements/List';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import { Activity } from '../models/activity';
 import NavBar from './NavBar';
+import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 
 function App() {
 const [activities, setActivities] = useState<Activity[]>([]);
@@ -15,17 +16,16 @@ useEffect(() => {
    })
 }, [])
 
+  // can't allowed multiple element without Fragment or div, 
+  // Fragment is used to replace the div, div is providing a unneccessary div to the frontend
+  // Can be used <> </> instead of <Fragment> </Fragment>, <> </> is shorcut for Fragment 
   return (
-    <div>
-        <NavBar />           
-        <List>
-          {activities.map(activity => (
-            <List.Item key={activity.id}>
-              {activity.title}
-            </List.Item>
-          ))}
-        </List>
-    </div>
+    <Fragment>  
+        <NavBar />
+        <Container style={{marginTop: '7em'}}>
+          <ActivityDashboard activities={activities}/>
+        </Container>        
+    </Fragment>
   );
 }
 
