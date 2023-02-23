@@ -9,12 +9,21 @@ import ActivityDashboard from '../../features/activities/dashboard/ActivityDashb
 
 function App() {
 const [activities, setActivities] = useState<Activity[]>([]);
+const [selectedActivity, setSelectedActivity] = useState<Activity | undefined> (undefined);
 
 useEffect(() => {
   axios.get<Activity[]>('http://localhost:5000/api/devhubblogs').then(response => {
     setActivities(response.data);  // set data to 'activites' variable
    })
 }, [])
+
+function handleSelectActivity(id: string){
+  setSelectedActivity(activities.find(x => x.id === id));
+}
+
+function handleCancelSelectedActivity(){
+  setSelectedActivity(undefined);
+}
 
   // can't allowed multiple element without Fragment or div, 
   // Fragment is used to replace the div, div is providing a unneccessary div to the frontend
@@ -23,7 +32,12 @@ useEffect(() => {
     <Fragment>  
         <NavBar />
         <Container style={{marginTop: '7em'}}>
-          <ActivityDashboard activities={activities}/>
+          <ActivityDashboard 
+            activities={activities}
+            selectedActivity = {selectedActivity}
+            selectActivity = {handleSelectActivity}
+            cancelSelectActivity = {handleCancelSelectedActivity}
+          />
         </Container>        
     </Fragment>
   );
