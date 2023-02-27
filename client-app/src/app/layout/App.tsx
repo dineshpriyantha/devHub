@@ -35,6 +35,14 @@ function handleClose(){
   setEditMode(false);
 }
 
+function handleCreateOrEditActivity(activity: Activity){
+  activity.id 
+    ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
+    : setActivities([...activities, activity]);
+  setEditMode(false);
+  setSelectedActivity(activity);
+}
+
   // can't allowed multiple element without Fragment or div, 
   // Fragment is used to replace the div, div is providing a unneccessary div to the frontend
   // Can be used <> </> instead of <Fragment> </Fragment>, <> </> is shorcut for Fragment 
@@ -50,6 +58,7 @@ function handleClose(){
             editMode = {editMode}
             openForm = {handleFormOpen}
             closeForm = {handleClose}
+            createOrEdit = {handleCreateOrEditActivity}
           />
         </Container>        
     </Fragment>
