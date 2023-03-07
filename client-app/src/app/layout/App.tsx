@@ -6,6 +6,7 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
+import {v4 as uuid} from 'uuid';
 
 function App() {
 const [activities, setActivities] = useState<Activity[]>([]);
@@ -38,9 +39,13 @@ function handleClose(){
 function handleCreateOrEditActivity(activity: Activity){
   activity.id 
     ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
-    : setActivities([...activities, activity]);
+    : setActivities([...activities, {...activity, id: uuid()}]);
   setEditMode(false);
   setSelectedActivity(activity);
+}
+
+function handleDeleteActivity(id: string){
+  setActivities([...activities.filter(X => X.id !== id)])
 }
 
   // can't allowed multiple element without Fragment or div, 
@@ -59,6 +64,7 @@ function handleCreateOrEditActivity(activity: Activity){
             openForm = {handleFormOpen}
             closeForm = {handleClose}
             createOrEdit = {handleCreateOrEditActivity}
+            deleteActivity = {handleDeleteActivity}
           />
         </Container>        
     </Fragment>
