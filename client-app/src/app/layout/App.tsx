@@ -1,21 +1,27 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, Header } from 'semantic-ui-react';
-import List from 'semantic-ui-react/dist/commonjs/elements/List';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import { Container } from 'semantic-ui-react';
 import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import {v4 as uuid} from 'uuid';
+import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
 const [activities, setActivities] = useState<Activity[]>([]);
 const [selectedActivity, setSelectedActivity] = useState<Activity | undefined> (undefined);
 const [editMode, setEditMode] = useState(false);
+const [loading, steLoading] = useState(true);
 
 useEffect(() => {
-  axios.get<Activity[]>('http://localhost:5000/api/devhubblogs').then(response => {
-    setActivities(response.data);  // set data to 'activites' variable
+  agent.Activities.list().then(response => {  //removed  axios.get<Activity[]>('http://localhost:5000/api/devhubblogs')
+    let activities: Activity[] = [];
+    response.forEach(activity => {
+      activity.date = activity.date.split('T')[0];
+      activities.push(activity);
+    })
+    setActivities(activities);  // set data to 'activites' variable
+    steLoading(false);
    })
 }, [])
 
@@ -47,6 +53,8 @@ function handleCreateOrEditActivity(activity: Activity){
 function handleDeleteActivity(id: string){
   setActivities([...activities.filter(X => X.id !== id)])
 }
+
+if(loading) return <LoadingComponent content='Loading app' />
 
   // can't allowed multiple element without Fragment or div, 
   // Fragment is used to replace the div, div is providing a unneccessary div to the frontend
