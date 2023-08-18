@@ -70,7 +70,11 @@ function handleCreateOrEditActivity(activity: Activity){
 }
 
 function handleDeleteActivity(id: string){
-  setActivities([...activities.filter(X => X.id !== id)])
+  setSubmitting(true);
+  agent.Activities.delete(id).then(() => {
+    setActivities([...activities.filter(X => X.id !== id)]);
+    setSubmitting(false);
+  })  
 }
 
 if(loading) return <LoadingComponent content='Loading app' />
