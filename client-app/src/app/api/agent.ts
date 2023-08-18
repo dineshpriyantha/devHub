@@ -29,7 +29,11 @@ const requests = {
 }
 
 const Activities = {
-    list: () => requests.get<Activity[]>('/devhubblogs')
+    list: () => requests.get<Activity[]>('/devhubblogs'),
+    details: (id: string) => requests.get<Activity>(`/devhubblogs/${id}`),
+    create: (activity: Activity) => axios.post<void>('devhubblogs/', activity),
+    update: (activity: Activity) => axios.put<void>(`devhubblogs/${activity.id}`, activity),
+    delete: (id: string) => axios.delete<void>(`/devhubblogs/${id}`)
 }
 
 const agent = {
